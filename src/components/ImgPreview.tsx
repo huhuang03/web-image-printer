@@ -5,6 +5,7 @@ interface ImgPreviewPros {
 
 export const UNIT = 'mm'
 
+// 好像上下默认会有一些边框，所以左右也需要等比例缩小
 const WIDTH = 297
 const HEIGHT = 210
 
@@ -42,7 +43,7 @@ export function ImgPreview(props: ImgPreviewPros) {
         rowGap: `${vertical_spacing}mm`,
         padding: `${vertical_padding}mm ${horizontal_padding}mm`,
         boxSizing: 'border-box',
-        border: '1px solid #ccc', // 可选，预览边界
+        // border: '1px solid #ccc', // 可选，预览边界
       }}
     >
       {props.images.map((file, index) => (

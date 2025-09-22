@@ -27,64 +27,32 @@ export function App() {
   const handlePrint = () => {
     if (!printRef.current) return;
 
-    const printWindow = window.open('', '_blank');
-    if (!printWindow) return;
 
-
-    // 克隆内容
-    const content = printRef.current!!.cloneNode(true) as HTMLElement;
-
-    // 写入新窗口
-    printWindow.document.open();
-    printWindow.document.write(`
-      <html lang="en">
-        <head>
-          <title>打印图片</title>
-          <style>
-            @page { size: A4; margin: 0; }
-            body { margin: 0; padding: 0; }
-            img { page-break-inside: avoid; }
-          </style>
-        </head>
-        <body>
-          ${content.outerHTML}
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
-
-    printWindow.focus();
-    printWindow.print();
-    // 打印后自动关闭
-    printWindow.close();
+    window.print();
   };
 
   return (
-    <div className="container mx-auto p-1 text-center relative z-10" style={{
+    <div className="container relative z-10" style={{
       display: 'flex',
       flexDirection: 'row',
     }}>
-      <div ref={printRef}>
+      <div ref={printRef} id="print-area">
         <ImgPreview images={images} arrange={{
           rows: 3,
           cols: 3,
-          horizontal_padding: 10,
-          vertical_padding: 10,
-          horizontal_spacing: 10,
-          vertical_spacing: 10
+          horizontal_padding: 7,
+          vertical_padding: 7,
+          horizontal_spacing: 5,
+          vertical_spacing: 5
         }} />
       </div>
-      <div className="op-area flex space-x-4 p-3">
+      <div className="op-area flex space-x-4 p-3 hide-when-print">
         <Button onClick={handleAddImageClick}>
           <IconPhotoPlus />添加图片
         </Button>
         <Button onClick={handlePrint}>
           <Printer />打印
         </Button>
-        {/*<NumberAdjustment name={'行间距'} />*/}
-        {/*<NumberAdjustment name={'列间距'} />*/}
-        {/*<NumberAdjustment name={'行边距'} />*/}
-        {/*<NumberAdjustment name={'列边距'} />*/}
       </div>
 
       <input
@@ -95,18 +63,6 @@ export function App() {
         onChange={handleFilesChange}
         className="hidden"
       />
-
-      {/*<Card className="bg-card/50 backdrop-blur-sm border-muted">*/}
-      {/*  <CardContent className="pt-6">*/}
-      {/*    <h1 className="text-5xl font-bold my-4 leading-tight">Bun + React</h1>*/}
-      {/*    <p>*/}
-      {/*      Edit{" "}*/}
-      {/*      <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">src/App.tsx</code> and*/}
-      {/*      save to test HMR*/}
-      {/*    </p>*/}
-      {/*    <APITester />*/}
-      {/*  </CardContent>*/}
-      {/*</Card>*/}
     </div>
   );
 }
