@@ -3,7 +3,6 @@ import './index.css';
 import {Button} from '@/components/ui/button.tsx';
 import {IconPhotoPlus} from '@tabler/icons-react';
 import {Printer} from 'lucide-react';
-import {NumberAdjustment} from './components/NumberAdjustment.tsx';
 import {useRef, useState} from 'react';
 import {ImgPreview} from '@/components/ImgPreview.tsx';
 
@@ -20,6 +19,7 @@ export function App() {
   // 4. 当选择文件时，把文件加入 images
   const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
+    console.log(`new: ${[...images, ...Array.from(e.target.files || [])]}`)
     setImages(prev => [...prev, ...Array.from(e.target.files || [])]);
     e.target.value = '';
   };
@@ -29,7 +29,6 @@ export function App() {
       display: 'flex',
       flexDirection: 'row',
     }}>
-
       <ImgPreview images={images} arrange={{
         rows: 3,
         cols: 3,
@@ -38,17 +37,17 @@ export function App() {
         horizontal_spacing: 10,
         vertical_spacing: 10
       }} />
-      <div className="op-area">
+      <div className="op-area flex space-x-4 p-3">
         <Button onClick={handleAddImageClick}>
           <IconPhotoPlus />添加图片
         </Button>
         <Button>
           <Printer />打印
         </Button>
-        <NumberAdjustment name={'行间距'} />
-        <NumberAdjustment name={'列间距'} />
-        <NumberAdjustment name={'行边距'} />
-        <NumberAdjustment name={'列边距'} />
+        {/*<NumberAdjustment name={'行间距'} />*/}
+        {/*<NumberAdjustment name={'列间距'} />*/}
+        {/*<NumberAdjustment name={'行边距'} />*/}
+        {/*<NumberAdjustment name={'列边距'} />*/}
       </div>
 
       <input
@@ -59,23 +58,6 @@ export function App() {
         onChange={handleFilesChange}
         className="hidden"
       />
-
-      {/*op area*/}
-      {/*<div>*/}
-      {/*  <button>增加图片</button>*/}
-      {/*</div>*/}
-      {/*<div className="flex justify-center items-center gap-8 mb-8">*/}
-      {/*  <img*/}
-      {/*    src={logo}*/}
-      {/*    alt="Bun Logo"*/}
-      {/*    className="h-36 p-6 transition-all duration-300 hover:drop-shadow-[0_0_2em_#646cffaa] scale-120"*/}
-      {/*  />*/}
-      {/*  <img*/}
-      {/*    src={reactLogo}*/}
-      {/*    alt="React Logo"*/}
-      {/*    className="h-36 p-6 transition-all duration-300 hover:drop-shadow-[0_0_2em_#61dafbaa] [animation:spin_20s_linear_infinite]"*/}
-      {/*  />*/}
-      {/*</div>*/}
 
       {/*<Card className="bg-card/50 backdrop-blur-sm border-muted">*/}
       {/*  <CardContent className="pt-6">*/}
