@@ -1,0 +1,1 @@
+Arrage the image and then print
