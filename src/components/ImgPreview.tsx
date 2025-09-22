@@ -29,7 +29,6 @@ export function ImgPreview(props: ImgPreviewPros) {
   const availableHeight = HEIGHT - 2 * vertical_padding - (rows - 1) * vertical_spacing; // mm
   const imgWidth = availableWidth / cols;
   const imgHeight = availableHeight / rows;
-  console.log(`images: ${props.images}`)
 
   return (
     <div

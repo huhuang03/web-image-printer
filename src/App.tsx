@@ -19,9 +19,44 @@ export function App() {
   // 4. 当选择文件时，把文件加入 images
   const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    console.log(`new: ${[...images, ...Array.from(e.target.files || [])]}`)
     setImages(prev => [...prev, ...Array.from(e.target.files || [])]);
-    e.target.value = '';
+  };
+
+  const printRef = useRef<HTMLDivElement>(null);
+
+  const handlePrint = () => {
+    if (!printRef.current) return;
+
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+
+    // 克隆内容
+    const content = printRef.current!!.cloneNode(true) as HTMLElement;
+
+    // 写入新窗口
+    printWindow.document.open();
+    printWindow.document.write(`
+      <html lang="en">
+        <head>
+          <title>打印图片</title>
+          <style>
+            @page { size: A4; margin: 0; }
+            body { margin: 0; padding: 0; }
+            img { page-break-inside: avoid; }
+          </style>
+        </head>
+        <body>
+          ${content.outerHTML}
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+
+    printWindow.focus();
+    printWindow.print();
+    // 打印后自动关闭
+    printWindow.close();
   };
 
   return (
@@ -29,19 +64,21 @@ export function App() {
       display: 'flex',
       flexDirection: 'row',
     }}>
-      <ImgPreview images={images} arrange={{
-        rows: 3,
-        cols: 3,
-        horizontal_padding: 10,
-        vertical_padding: 10,
-        horizontal_spacing: 10,
-        vertical_spacing: 10
-      }} />
+      <div ref={printRef}>
+        <ImgPreview images={images} arrange={{
+          rows: 3,
+          cols: 3,
+          horizontal_padding: 10,
+          vertical_padding: 10,
+          horizontal_spacing: 10,
+          vertical_spacing: 10
+        }} />
+      </div>
       <div className="op-area flex space-x-4 p-3">
         <Button onClick={handleAddImageClick}>
           <IconPhotoPlus />添加图片
         </Button>
-        <Button>
+        <Button onClick={handlePrint}>
           <Printer />打印
         </Button>
         {/*<NumberAdjustment name={'行间距'} />*/}
