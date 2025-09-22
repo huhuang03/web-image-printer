@@ -1,10 +1,11 @@
 import './index.css';
 
 import {Button} from '@/components/ui/button.tsx';
-import {IconPhotoPlus} from '@tabler/icons-react';
+import {IconClearAll, IconPhotoPlus} from '@tabler/icons-react';
 import {Printer} from 'lucide-react';
 import {useRef, useState} from 'react';
 import {ImgPreview} from '@/components/ImgPreview.tsx';
+import * as React from 'react';
 
 export function App() {
   const [images, setImages] = useState<File[]>([]);
@@ -19,7 +20,7 @@ export function App() {
   // 4. 当选择文件时，把文件加入 images
   const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    setImages(prev => [...prev, ...Array.from(e.target.files || [])]);
+    setImages(prev => [...prev, ...Array.from(e.target.files || [])].splice(0, 9));
   };
 
   const printRef = useRef<HTMLDivElement>(null);
@@ -52,6 +53,11 @@ export function App() {
         </Button>
         <Button onClick={handlePrint}>
           <Printer />打印
+        </Button>
+        <Button onClick={() => {
+          setImages([])
+        }}>
+          <IconClearAll />清空
         </Button>
       </div>
 
