@@ -25,7 +25,19 @@ export function App() {
   };
 
   return (
-    <div className="container mx-auto p-8 text-center relative z-10">
+    <div className="container mx-auto p-1 text-center relative z-10" style={{
+      display: 'flex',
+      flexDirection: 'row',
+    }}>
+
+      <ImgPreview images={images} arrange={{
+        rows: 3,
+        cols: 3,
+        horizontal_padding: 10,
+        vertical_padding: 10,
+        horizontal_spacing: 10,
+        vertical_spacing: 10
+      }} />
       <div className="op-area">
         <Button onClick={handleAddImageClick}>
           <IconPhotoPlus />添加图片
@@ -47,8 +59,6 @@ export function App() {
         onChange={handleFilesChange}
         className="hidden"
       />
-
-      <ImgPreview images={images} />
 
       {/*op area*/}
       {/*<div>*/}
